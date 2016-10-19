@@ -1,5 +1,19 @@
-FROM python:3
+FROM node:6-onbuild
 
-COPY index.html /
+EXPOSE 3000
 
-CMD ["python3", "-m", "http.server", "80"]
+## Install typings
+# RUN npm run typings install
+
+## Mark as a production angular app
+RUN sed -i "/@NgModule/i\
+import { enableProdMode } from '@angular/core';\n\
+enableProdMode();\n\
+" app/app.module.ts
+
+## Install serve
+RUN npm install serve
+RUN sed -i '/^[ \t]*"scripts": /a\
+    "serve": "serve",' package.json
+
+CMD ["npm", "run", "serve"]
