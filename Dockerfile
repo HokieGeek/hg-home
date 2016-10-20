@@ -3,7 +3,7 @@ FROM node:6-onbuild
 EXPOSE 3000
 
 ## Install typings
-# RUN npm run typings install
+RUN npm run typings install
 
 ## Mark as a production angular app
 RUN sed -i "/@NgModule/i\
